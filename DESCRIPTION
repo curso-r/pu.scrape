@@ -8,13 +8,25 @@ Authors@R: c(
     person("William", "Amorim", email = "thewilliam89@gmail.com", role = "aut"),
     person("Fernando", "Correa", email = "fptcorrea@gmail.com", role = "aut"))
 Description: PACKAGE_DESCRIPTION.
-Depends: 
+Depends:
   R (>= 3.2.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Remotes:
-    curso-r/puBuild
+    curso-r/puBuild,
+    abjur/tjsp
 Imports:
   puBuild,
-  tutorial
+  tutorial,
+    httr,
+    xml2,
+    rvest,
+    dplyr,
+    tidyr,
+    stringr,
+    lubridate,
+    purrr,
+    janitor,
+    tibble,
+    tjsp
