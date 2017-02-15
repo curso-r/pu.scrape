@@ -997,8 +997,6 @@ d_cjsg %>%
   theme(legend.position = "bottom")
 ```
 
-```
-## Error in mutate_impl(.data, dots): there is no package called 'readr'
-```
+![plot of chunk unnamed-chunk-36](figures//unnamed-chunk-36-1.png)
 
 
