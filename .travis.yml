@@ -1,0 +1,18 @@
+language: r
+cache: packages
+
+branches:
+  only:
+  - master
+
+env:
+  global:
+    - secure: "garknywxyDYxFKVdRuu5J74qNpO1x2/0xjiuYb3OIeHGqvJgxbyXdc6flajJIDYxZuZpjtRxtB4bfyzWXoMjSkhrE7a44q3GuhUhKPPSTZ5tV0c2QgpI2u2ftws3JpZT/IpHIoVcwh1VC2wAwXJhSFls9XHfCq2ly0KwdTra7gi07c2YhXUTQ8XHDpUbcP844Ska7bPtXZFHyMq0KzLJpkGrIv9HXkiggeoGrGfIC2KPThmG3Q7Kd2+DMf0JantnYw6Rd8GXKwkjx2olkMShg2g5PHdLVARydepu4i5hIdU8fOAZf7gZVp3O6r9qa7X/QkhT9JhwT+wnsKkAta1vhI4PncQD6B8vbdMoWgt8wlep938z0Leljg71Pnd7p60ZXaRWUIOQO8p5clmkJt33TJxmeg8eY6wq4YZq+/aQh+k/NoG8kwpo1rcw5mTl1FDK2DA5o8zsdlZ1EGVTPZHF4YugKP2p/AdM+5TapFmStzTazOiajk/VdGPH4w3GCPU5K07PzzrGcmdeWeps1zFITNPdbAIHxiZVje3oqKSqeCWY4Q7Qpzi4HzNDQpC1rGCjAKohdL4mKYj3Vy6m+6JViHa83v8DE+HCAODZ1uEUMQhIi+dzFJgQ9cjAZJFPlZKtbfQt2yyOayz/RhdXcBAlFUBOEgOHUhMejDlO196UOo8="
+
+before_script:
+  - chmod +x ./_build.sh
+  - chmod +x ./_deploy.sh
+
+script:
+  - ./_build.sh
+  - ./_deploy.sh
