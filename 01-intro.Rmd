@@ -124,6 +124,7 @@ library(tibble)
 library(httr)
 library(rvest)
 library(dplyr)
+library(ggplot2)
 ```
 
 ## Parte 1: acessando a página de um ano
@@ -482,7 +483,7 @@ busca padrão.
 É possível visualizar a página baixada com a função `BROWSE` do pacote `httr`. 
 
 ```{r eval=FALSE}
-arqs <- dir('data-raw/cjsg', full.names = TRUE)
+arqs <- dir('data/cjsg', full.names = TRUE)
 httr::BROWSE(arqs[1])
 ```
 
@@ -590,14 +591,14 @@ parms <- session %>%
 session %>% cjsg_npags(parms)
 
 d_result <- session %>% 
-  cjsg(parms, path = 'data-raw/cjsg', max_pag = 10)
+  cjsg(parms, path = 'data/cjsg', max_pag = 10)
 ```
 
 **Onde guardar os dados?** Ao construir um scraper, 
 é importante guardar os dados brutos na máquina ou num servidor, 
 para reprodutibilidade e manutenção do scraper. 
 Se estiver construindo um pacote do R, o melhor lugar para guardar esses
-dados é na pasta `data-raw`, como sugerido no livro [r-pkgs](http://r-pkgs.had.co.nz). 
+dados é na pasta `data`, como sugerido no livro [r-pkgs](http://r-pkgs.had.co.nz). 
 
 Se os dados forem muito volumosos, 
 pode ser necessário colocar esses documentos numa pasta externa ao pacote. 
@@ -667,13 +668,13 @@ parse_cjsg <- function(arqs) {
 Rodando a função criada.
 
 ```{r eval=FALSE}
-arqs <- dir('data-raw/cjsg', full.names = TRUE)
+arqs <- dir('data/cjsg', full.names = TRUE)
 d_cjsg <- tjsp::parse_cjsg(arqs)
-saveRDS(d_cjsg, 'data-raw/d_cjsg.rds')
+saveRDS(d_cjsg, 'data/d_cjsg.rds')
 ```
 
 ```{r}
-d_cjsg <- readRDS('data-raw/d_cjsg.rds')
+d_cjsg <- readRDS('data/d_cjsg.rds')
 d_cjsg
 ```
 
@@ -706,7 +707,7 @@ cposg_um <- function(p, path, ow) {
   }
 }
 
-cposg <- function(processos, path = 'data-raw/cposg', overwrite = FALSE) {
+cposg <- function(processos, path = 'data/cposg', overwrite = FALSE) {
   suppressWarnings(dir.create(path, recursive = TRUE))
   processos <- gsub('[^0-9]', '', processos)
   abjutils::dvec(cposg_um, processos, path = path, ow = overwrite)
@@ -719,7 +720,7 @@ Rodando a função criada.
 d_cjsg %>% 
   distinct(n_processo) %>% 
   with(n_processo) %>% 
-  tjsp::cposg()
+  tjsp::cposg(path = 'data/cposg')
 ```
 
 Extraindo as partes do arquivo HTML.
@@ -773,14 +774,14 @@ partes_cposg <- function(arqs, verbose = FALSE) {
 ```
 
 ```{r eval=FALSE}
-arqs <- dir('data-raw/cposg', full.names = TRUE)
+arqs <- dir('data/cposg', full.names = TRUE)
 d_partes <-  partes_cposg(arqs)
-saveRDS(d_partes, 'data-raw/d_partes.rds')
+saveRDS(d_partes, 'data/d_partes.rds')
 d_partes
 ```
 
 ```{r}
-d_partes <- readRDS('data-raw/d_partes.rds')
+d_partes <- readRDS('data/d_partes.rds')
 d_partes
 ```
 
@@ -804,14 +805,14 @@ decisoes_cposg <- function(arqs, verbose = FALSE) {
 ```
 
 ```{r eval=FALSE}
-arqs <- dir('data-raw/cposg', full.names = TRUE)
+arqs <- dir('data/cposg', full.names = TRUE)
 d_decisoes <- decisoes_cposg(arqs)
-saveRDS(d_decisoes, 'data-raw/d_decisoes.rds')
+saveRDS(d_decisoes, 'data/d_decisoes.rds')
 d_decisoes
 ```
 
 ```{r}
-d_decisoes <- readRDS('data-raw/d_decisoes.rds')
+d_decisoes <- readRDS('data/d_decisoes.rds')
 d_decisoes
 ```
 
@@ -861,11 +862,5 @@ d_cjsg %>%
   xlab('Órgão julgador') +
   ylab('Proporção de processos por tipo de decisão') +
   theme(legend.position = "bottom")
-```
-
-## Sign off
-
-```{r echo=FALSE}
-unlink('data-raw', recursive = TRUE)
 ```
 
