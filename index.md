@@ -133,6 +133,11 @@ library(tibble)
 library(httr)
 library(rvest)
 library(dplyr)
+library(ggplot2)
+```
+
+```
+## Error in library(ggplot2): there is no package called 'ggplot2'
 ```
 
 ## Parte 1: acessando a página de um ano
@@ -553,7 +558,7 @@ busca padrão.
 
 
 ```r
-arqs <- dir('data-raw/cjsg', full.names = TRUE)
+arqs <- dir('data/cjsg', full.names = TRUE)
 httr::BROWSE(arqs[1])
 ```
 
@@ -665,14 +670,14 @@ parms <- session %>%
 session %>% cjsg_npags(parms)
 
 d_result <- session %>% 
-  cjsg(parms, path = 'data-raw/cjsg', max_pag = 10)
+  cjsg(parms, path = 'data/cjsg', max_pag = 10)
 ```
 
 **Onde guardar os dados?** Ao construir um scraper, 
 é importante guardar os dados brutos na máquina ou num servidor, 
 para reprodutibilidade e manutenção do scraper. 
 Se estiver construindo um pacote do R, o melhor lugar para guardar esses
-dados é na pasta `data-raw`, como sugerido no livro [r-pkgs](http://r-pkgs.had.co.nz). 
+dados é na pasta `data`, como sugerido no livro [r-pkgs](http://r-pkgs.had.co.nz). 
 
 Se os dados forem muito volumosos, 
 pode ser necessário colocar esses documentos numa pasta externa ao pacote. 
@@ -744,31 +749,35 @@ Rodando a função criada.
 
 
 ```r
-arqs <- dir('data-raw/cjsg', full.names = TRUE)
+arqs <- dir('data/cjsg', full.names = TRUE)
 d_cjsg <- tjsp::parse_cjsg(arqs)
-saveRDS(d_cjsg, 'data-raw/d_cjsg.rds')
+saveRDS(d_cjsg, 'data/d_cjsg.rds')
 ```
 
 
 ```r
-d_cjsg <- readRDS('data-raw/d_cjsg.rds')
-```
-
-```
-## Warning in gzfile(file, "rb"): cannot open compressed file 'data-raw/
-## d_cjsg.rds', probable reason 'No such file or directory'
-```
-
-```
-## Error in gzfile(file, "rb"): cannot open the connection
-```
-
-```r
+d_cjsg <- readRDS('data/d_cjsg.rds')
 d_cjsg
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'd_cjsg' not found
+## # A tibble: 200 × 14
+##                         arq    id cd_acordao                n_processo
+##                       <chr> <chr>      <chr>                     <chr>
+## 1  data-raw/cjsg/00001.html     1   10120659 0053149-48.2006.8.26.0050
+## 2  data-raw/cjsg/00001.html     2   10092189 0011582-56.2009.8.26.0236
+## 3  data-raw/cjsg/00001.html     3   10040923 0035263-74.2015.8.26.0000
+## 4  data-raw/cjsg/00001.html     4   10039029 0019944-66.2015.8.26.0000
+## 5  data-raw/cjsg/00001.html     5   10039023 0041547-98.2015.8.26.0000
+## 6  data-raw/cjsg/00001.html     6   10027377 0003710-93.2014.8.26.0048
+## 7  data-raw/cjsg/00001.html     7    9983410 7004537-07.2015.8.26.0482
+## 8  data-raw/cjsg/00001.html     8    9956156 0004870-37.2014.8.26.0604
+## 9  data-raw/cjsg/00001.html     9    9901809 7007051-30.2015.8.26.0482
+## 10 data-raw/cjsg/00001.html    10    9899013 0087445-23.2011.8.26.0050
+## # ... with 190 more rows, and 10 more variables: comarca <chr>,
+## #   data_julgamento <chr>, data_registro <chr>, ementa <chr>,
+## #   orgao_julgador <chr>, relatora <chr>, classe_assunto <chr>,
+## #   txt_ementa <chr>, result <chr>, outros_numeros <chr>
 ```
 
 Agora criamos a função que baixa processos.
@@ -801,7 +810,7 @@ cposg_um <- function(p, path, ow) {
   }
 }
 
-cposg <- function(processos, path = 'data-raw/cposg', overwrite = FALSE) {
+cposg <- function(processos, path = 'data/cposg', overwrite = FALSE) {
   suppressWarnings(dir.create(path, recursive = TRUE))
   processos <- gsub('[^0-9]', '', processos)
   abjutils::dvec(cposg_um, processos, path = path, ow = overwrite)
@@ -815,7 +824,7 @@ Rodando a função criada.
 d_cjsg %>% 
   distinct(n_processo) %>% 
   with(n_processo) %>% 
-  tjsp::cposg()
+  tjsp::cposg(path = 'data/cposg')
 ```
 
 Extraindo as partes do arquivo HTML.
@@ -871,32 +880,33 @@ partes_cposg <- function(arqs, verbose = FALSE) {
 
 
 ```r
-arqs <- dir('data-raw/cposg', full.names = TRUE)
+arqs <- dir('data/cposg', full.names = TRUE)
 d_partes <-  partes_cposg(arqs)
-saveRDS(d_partes, 'data-raw/d_partes.rds')
+saveRDS(d_partes, 'data/d_partes.rds')
 d_partes
 ```
 
 
 ```r
-d_partes <- readRDS('data-raw/d_partes.rds')
-```
-
-```
-## Warning in gzfile(file, "rb"): cannot open compressed file 'data-raw/
-## d_partes.rds', probable reason 'No such file or directory'
-```
-
-```
-## Error in gzfile(file, "rb"): cannot open the connection
-```
-
-```r
+d_partes <- readRDS('data/d_partes.rds')
 d_partes
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'd_partes' not found
+## # A tibble: 762 × 6
+##                                         arq    id id_tipo     tipo
+##                                       <chr> <int>   <chr>    <chr>
+## 1  data-raw/cposg/00000179520148260050.html     1      01 apteapdo
+## 2  data-raw/cposg/00000179520148260050.html     2      01 apdoapte
+## 3  data-raw/cposg/00000179520148260050.html     2      02 advogado
+## 4  data-raw/cposg/00000179520148260050.html     3      01 apdoapte
+## 5  data-raw/cposg/00000179520148260050.html     3      02 advogado
+## 6  data-raw/cposg/00000201120148260451.html     1      01 apelante
+## 7  data-raw/cposg/00000201120148260451.html     1      02 advogado
+## 8  data-raw/cposg/00000201120148260451.html     2      01  apelado
+## 9  data-raw/cposg/00000636120138260457.html     1      01 apelante
+## 10 data-raw/cposg/00000636120138260457.html     1      02 advogado
+## # ... with 752 more rows, and 2 more variables: nome <chr>, result <chr>
 ```
 
 Extraindo as decisões.
@@ -921,32 +931,34 @@ decisoes_cposg <- function(arqs, verbose = FALSE) {
 
 
 ```r
-arqs <- dir('data-raw/cposg', full.names = TRUE)
+arqs <- dir('data/cposg', full.names = TRUE)
 d_decisoes <- decisoes_cposg(arqs)
-saveRDS(d_decisoes, 'data-raw/d_decisoes.rds')
+saveRDS(d_decisoes, 'data/d_decisoes.rds')
 d_decisoes
 ```
 
 
 ```r
-d_decisoes <- readRDS('data-raw/d_decisoes.rds')
-```
-
-```
-## Warning in gzfile(file, "rb"): cannot open compressed file 'data-raw/
-## d_decisoes.rds', probable reason 'No such file or directory'
-```
-
-```
-## Error in gzfile(file, "rb"): cannot open the connection
-```
-
-```r
+d_decisoes <- readRDS('data/d_decisoes.rds')
 d_decisoes
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'd_decisoes' not found
+## # A tibble: 361 × 5
+##                                         arq       data
+##                                       <chr>      <chr>
+## 1  data-raw/cposg/00000179520148260050.html 16/12/2015
+## 2  data-raw/cposg/00000201120148260451.html 03/12/2015
+## 3  data-raw/cposg/00000636120138260457.html 08/10/2015
+## 4  data-raw/cposg/00000636120138260457.html 24/09/2015
+## 5  data-raw/cposg/00000636120138260457.html 17/09/2015
+## 6  data-raw/cposg/00000681720138260576.html 16/12/2015
+## 7  data-raw/cposg/00001064420148260495.html 03/12/2015
+## 8  data-raw/cposg/00001241620138260361.html 29/10/2015
+## 9  data-raw/cposg/00001939320158260000.html 12/05/2015
+## 10 data-raw/cposg/00001939320158260000.html 14/04/2015
+## # ... with 351 more rows, and 3 more variables: situacao <chr>,
+## #   decisao <chr>, result <chr>
 ```
 
 Visualizando!
@@ -969,13 +981,7 @@ partes_apelacoes <- d_partes %>%
   filter(tipo == 'apelado', str_detect(nome, '[Mm]inist')) %>% 
   mutate(n_processo = str_replace_all(arq, '[^0-9]', '')) %>% 
   dplyr::select(n_processo)
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'd_partes' not found
-```
-
-```r
 decisoes <- d_decisoes %>% 
   mutate(n_processo = str_replace_all(arq, '[^0-9]', '')) %>% 
   inner_join(partes_apelacoes, 'n_processo') %>% 
@@ -983,13 +989,7 @@ decisoes <- d_decisoes %>%
   distinct(n_processo, decisao) %>%
   mutate(tipo_decisao = tipos_decisao(decisao)) %>% 
   dplyr::select(n_processo, tipo_decisao)
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'd_decisoes' not found
-```
-
-```r
 library(ggplot2)
 ```
 
@@ -1018,11 +1018,7 @@ d_cjsg %>%
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'd_cjsg' not found
+## Error in mutate_impl(.data, dots): there is no package called 'readr'
 ```
-
-## Sign off
-
-
 
 
