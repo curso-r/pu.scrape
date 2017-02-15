@@ -136,10 +136,6 @@ library(dplyr)
 library(ggplot2)
 ```
 
-```
-## Error in library(ggplot2): there is no package called 'ggplot2'
-```
-
 ## Parte 1: acessando a página de um ano
 
 
@@ -395,13 +391,6 @@ dts <- as.Date('2017-02-14') - lubridate::days(0:13 * 30)
 d_sabesp <- sabesp_dias(dts)
 
 library(ggplot2)
-```
-
-```
-## Error in library(ggplot2): there is no package called 'ggplot2'
-```
-
-```r
 d_sabesp %>% 
   filter(titulo == 'volume armazenado') %>% 
   mutate(data = ymd(data)) %>% 
@@ -410,9 +399,7 @@ d_sabesp %>%
   theme_bw()
 ```
 
-```
-## Error in function_list[[k]](value): could not find function "ggplot"
-```
+![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
 
 ----------------------------------------------------------------------------------
 
@@ -991,13 +978,6 @@ decisoes <- d_decisoes %>%
   dplyr::select(n_processo, tipo_decisao)
 
 library(ggplot2)
-```
-
-```
-## Error in library(ggplot2): there is no package called 'ggplot2'
-```
-
-```r
 d_cjsg %>%
   mutate(n_processo = str_replace_all(n_processo, '[^0-9]', '')) %>% 
   inner_join(decisoes, 'n_processo') %>% 
