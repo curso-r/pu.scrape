@@ -30,4 +30,5 @@ Imports:
     janitor,
     tibble,
     tjsp,
-    ggplot2
+    ggplot2,
+    readr
