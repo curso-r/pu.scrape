@@ -1,6 +1,6 @@
 ---
-title: Introdução
-date: '2017-02-15'
+title: 'Web Scraping'
+date: '2017-10-10'
 ---
 
 
@@ -215,6 +215,10 @@ cdg_anos <- function(anos) {
 d_cdg <- cdg_anos(c(2014, 2015))
 ```
 
+```
+## Warning: Deprecated: please use `purrr::possibly()` instead
+```
+
 ----------------------------------------------------------------------------------
 
 # Exemplo 2: Sabesp
@@ -324,19 +328,19 @@ sabesp_conteudo(result)
 ```
 
 ```
-## # A tibble: 24 × 3
-##                           titulo  info               lugar
-##                            <chr> <dbl>               <chr>
-## 1              volume armazenado  62.5   sistemaCantareira
-## 2            pluviometria do dia   0.0   sistemaCantareira
-## 3  pluviometria acumulada no mês  50.1   sistemaCantareira
-## 4         média histórica do mês 203.4   sistemaCantareira
-## 5              volume armazenado  53.9    sistemaAltoTiete
-## 6            pluviometria do dia   0.0    sistemaAltoTiete
-## 7  pluviometria acumulada no mês  54.0    sistemaAltoTiete
-## 8         média histórica do mês 194.9    sistemaAltoTiete
-## 9              volume armazenado  78.9 sistemaGuarapiranga
-## 10           pluviometria do dia   3.4 sistemaGuarapiranga
+## # A tibble: 24 x 3
+##                                 titulo  info               lugar
+##                                  <chr> <dbl>               <chr>
+##  1                   índice armazenado  62.5   sistemaCantareira
+##  2                 pluviometria do dia   0.0   sistemaCantareira
+##  3       pluviometria acumulada no mês  50.1   sistemaCantareira
+##  4 pluviometria média histórica do mês 203.4   sistemaCantareira
+##  5                   índice armazenado  53.9    sistemaAltoTiete
+##  6                 pluviometria do dia   0.0    sistemaAltoTiete
+##  7       pluviometria acumulada no mês  54.0    sistemaAltoTiete
+##  8 pluviometria média histórica do mês 194.9    sistemaAltoTiete
+##  9                   índice armazenado  78.9 sistemaGuarapiranga
+## 10                 pluviometria do dia   3.4 sistemaGuarapiranga
 ## # ... with 14 more rows
 ```
 
@@ -361,19 +365,19 @@ sabesp_dia('2017-02-14')
 ```
 
 ```
-## # A tibble: 24 × 4
-##                           titulo  info               lugar result
-##                            <chr> <dbl>               <chr>  <chr>
-## 1              volume armazenado  62.5   sistemaCantareira     OK
-## 2            pluviometria do dia   0.0   sistemaCantareira     OK
-## 3  pluviometria acumulada no mês  50.1   sistemaCantareira     OK
-## 4         média histórica do mês 203.4   sistemaCantareira     OK
-## 5              volume armazenado  53.9    sistemaAltoTiete     OK
-## 6            pluviometria do dia   0.0    sistemaAltoTiete     OK
-## 7  pluviometria acumulada no mês  54.0    sistemaAltoTiete     OK
-## 8         média histórica do mês 194.9    sistemaAltoTiete     OK
-## 9              volume armazenado  78.9 sistemaGuarapiranga     OK
-## 10           pluviometria do dia   3.4 sistemaGuarapiranga     OK
+## # A tibble: 24 x 4
+##                                 titulo  info               lugar result
+##                                  <chr> <dbl>               <chr>  <chr>
+##  1                   índice armazenado  62.5   sistemaCantareira     OK
+##  2                 pluviometria do dia   0.0   sistemaCantareira     OK
+##  3       pluviometria acumulada no mês  50.1   sistemaCantareira     OK
+##  4 pluviometria média histórica do mês 203.4   sistemaCantareira     OK
+##  5                   índice armazenado  53.9    sistemaAltoTiete     OK
+##  6                 pluviometria do dia   0.0    sistemaAltoTiete     OK
+##  7       pluviometria acumulada no mês  54.0    sistemaAltoTiete     OK
+##  8 pluviometria média histórica do mês 194.9    sistemaAltoTiete     OK
+##  9                   índice armazenado  78.9 sistemaGuarapiranga     OK
+## 10                 pluviometria do dia   3.4 sistemaGuarapiranga     OK
 ## # ... with 14 more rows
 ```
 
@@ -389,7 +393,13 @@ sabesp_dias <- function(datas) {
 # exemplo
 dts <- as.Date('2017-02-14') - lubridate::days(0:13 * 30)
 d_sabesp <- sabesp_dias(dts)
+```
 
+```
+## Warning: Deprecated: please use `purrr::possibly()` instead
+```
+
+```r
 library(ggplot2)
 d_sabesp %>% 
   filter(titulo == 'volume armazenado') %>% 
@@ -397,6 +407,10 @@ d_sabesp %>%
   ggplot(aes(x = data, y = info, colour = lugar)) +
   geom_line() +
   theme_bw()
+```
+
+```
+## Warning: All formats failed to parse. No formats found.
 ```
 
 ![plot of chunk unnamed-chunk-16](figures//unnamed-chunk-16-1.png)
@@ -485,7 +499,7 @@ Acesse a página do [e-SAJ](http://esaj.tjsp.jus.br/cjsg/consultaCompleta.do),
 digite "acordam" no campo "Pesquisa Livre" e clique em "Pesquisar", 
 para ter uma ideia de como é essa página. 
 
-A página (acessada no dia 2017-02-15) 
+A página (acessada no dia 2017-10-10) 
 é uma ferramenta de busca com vários campos, 
 que não permite pesquisa com dados em branco. 
 Na parte de baixo o site mostra uma série de documentos, 
@@ -748,18 +762,18 @@ d_cjsg
 ```
 
 ```
-## # A tibble: 200 × 14
+## # A tibble: 200 x 14
 ##                         arq    id cd_acordao                n_processo
 ##                       <chr> <chr>      <chr>                     <chr>
-## 1  data-raw/cjsg/00001.html     1   10120659 0053149-48.2006.8.26.0050
-## 2  data-raw/cjsg/00001.html     2   10092189 0011582-56.2009.8.26.0236
-## 3  data-raw/cjsg/00001.html     3   10040923 0035263-74.2015.8.26.0000
-## 4  data-raw/cjsg/00001.html     4   10039029 0019944-66.2015.8.26.0000
-## 5  data-raw/cjsg/00001.html     5   10039023 0041547-98.2015.8.26.0000
-## 6  data-raw/cjsg/00001.html     6   10027377 0003710-93.2014.8.26.0048
-## 7  data-raw/cjsg/00001.html     7    9983410 7004537-07.2015.8.26.0482
-## 8  data-raw/cjsg/00001.html     8    9956156 0004870-37.2014.8.26.0604
-## 9  data-raw/cjsg/00001.html     9    9901809 7007051-30.2015.8.26.0482
+##  1 data-raw/cjsg/00001.html     1   10120659 0053149-48.2006.8.26.0050
+##  2 data-raw/cjsg/00001.html     2   10092189 0011582-56.2009.8.26.0236
+##  3 data-raw/cjsg/00001.html     3   10040923 0035263-74.2015.8.26.0000
+##  4 data-raw/cjsg/00001.html     4   10039029 0019944-66.2015.8.26.0000
+##  5 data-raw/cjsg/00001.html     5   10039023 0041547-98.2015.8.26.0000
+##  6 data-raw/cjsg/00001.html     6   10027377 0003710-93.2014.8.26.0048
+##  7 data-raw/cjsg/00001.html     7    9983410 7004537-07.2015.8.26.0482
+##  8 data-raw/cjsg/00001.html     8    9956156 0004870-37.2014.8.26.0604
+##  9 data-raw/cjsg/00001.html     9    9901809 7007051-30.2015.8.26.0482
 ## 10 data-raw/cjsg/00001.html    10    9899013 0087445-23.2011.8.26.0050
 ## # ... with 190 more rows, and 10 more variables: comarca <chr>,
 ## #   data_julgamento <chr>, data_registro <chr>, ementa <chr>,
@@ -880,18 +894,18 @@ d_partes
 ```
 
 ```
-## # A tibble: 762 × 6
+## # A tibble: 762 x 6
 ##                                         arq    id id_tipo     tipo
 ##                                       <chr> <int>   <chr>    <chr>
-## 1  data-raw/cposg/00000179520148260050.html     1      01 apteapdo
-## 2  data-raw/cposg/00000179520148260050.html     2      01 apdoapte
-## 3  data-raw/cposg/00000179520148260050.html     2      02 advogado
-## 4  data-raw/cposg/00000179520148260050.html     3      01 apdoapte
-## 5  data-raw/cposg/00000179520148260050.html     3      02 advogado
-## 6  data-raw/cposg/00000201120148260451.html     1      01 apelante
-## 7  data-raw/cposg/00000201120148260451.html     1      02 advogado
-## 8  data-raw/cposg/00000201120148260451.html     2      01  apelado
-## 9  data-raw/cposg/00000636120138260457.html     1      01 apelante
+##  1 data-raw/cposg/00000179520148260050.html     1      01 apteapdo
+##  2 data-raw/cposg/00000179520148260050.html     2      01 apdoapte
+##  3 data-raw/cposg/00000179520148260050.html     2      02 advogado
+##  4 data-raw/cposg/00000179520148260050.html     3      01 apdoapte
+##  5 data-raw/cposg/00000179520148260050.html     3      02 advogado
+##  6 data-raw/cposg/00000201120148260451.html     1      01 apelante
+##  7 data-raw/cposg/00000201120148260451.html     1      02 advogado
+##  8 data-raw/cposg/00000201120148260451.html     2      01  apelado
+##  9 data-raw/cposg/00000636120138260457.html     1      01 apelante
 ## 10 data-raw/cposg/00000636120138260457.html     1      02 advogado
 ## # ... with 752 more rows, and 2 more variables: nome <chr>, result <chr>
 ```
@@ -931,18 +945,18 @@ d_decisoes
 ```
 
 ```
-## # A tibble: 361 × 5
+## # A tibble: 361 x 5
 ##                                         arq       data
 ##                                       <chr>      <chr>
-## 1  data-raw/cposg/00000179520148260050.html 16/12/2015
-## 2  data-raw/cposg/00000201120148260451.html 03/12/2015
-## 3  data-raw/cposg/00000636120138260457.html 08/10/2015
-## 4  data-raw/cposg/00000636120138260457.html 24/09/2015
-## 5  data-raw/cposg/00000636120138260457.html 17/09/2015
-## 6  data-raw/cposg/00000681720138260576.html 16/12/2015
-## 7  data-raw/cposg/00001064420148260495.html 03/12/2015
-## 8  data-raw/cposg/00001241620138260361.html 29/10/2015
-## 9  data-raw/cposg/00001939320158260000.html 12/05/2015
+##  1 data-raw/cposg/00000179520148260050.html 16/12/2015
+##  2 data-raw/cposg/00000201120148260451.html 03/12/2015
+##  3 data-raw/cposg/00000636120138260457.html 08/10/2015
+##  4 data-raw/cposg/00000636120138260457.html 24/09/2015
+##  5 data-raw/cposg/00000636120138260457.html 17/09/2015
+##  6 data-raw/cposg/00000681720138260576.html 16/12/2015
+##  7 data-raw/cposg/00001064420148260495.html 03/12/2015
+##  8 data-raw/cposg/00001241620138260361.html 29/10/2015
+##  9 data-raw/cposg/00001939320158260000.html 12/05/2015
 ## 10 data-raw/cposg/00001939320158260000.html 14/04/2015
 ## # ... with 351 more rows, and 3 more variables: situacao <chr>,
 ## #   decisao <chr>, result <chr>
