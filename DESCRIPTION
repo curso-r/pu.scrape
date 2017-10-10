@@ -14,8 +14,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Remotes:
-    curso-r/puBuild,
-    abjur/tjsp
+    curso-r/puBuild
 Imports:
   puBuild,
   tutorial,
@@ -29,6 +28,5 @@ Imports:
     purrr,
     janitor,
     tibble,
-    tjsp,
     ggplot2,
     readr
