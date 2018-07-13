@@ -336,7 +336,7 @@ d_sabesp <- sabesp_dias(dts)
 
 library(ggplot2)
 d_sabesp %>% 
-  filter(titulo == 'volume armazenado') %>% 
+  filter(titulo == 'índice armazenado') %>%
   mutate(data = ymd(data)) %>% 
   ggplot(aes(x = data, y = info, colour = lugar)) +
   geom_line() +
